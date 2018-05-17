@@ -1,5 +1,5 @@
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#-------------------   MODELO PILOTO 10 DGIP ------------------------------
+#-------------------   MODELO PREDICTIVO V10 DGIP  ------------------------
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 library(shiny)
 library(shinythemes)
@@ -16,7 +16,7 @@ library(reshape2)
 library(tseries)
 library(forecast)
 #>> Carga de Datos
-load('Data/Datos_SAE(Muestra).RData')
+load('Data/Datos_SAE_Act.RData')
 # PARAMETROS INICIALES -----------------------------------------
 source("Code/ParametrosIniciales.R",local = TRUE)
 
@@ -41,29 +41,29 @@ ui <- navbarPage(title = "Modelo Predictivo DGIP",
                           fluidRow(
                             
                             sidebarPanel(img(src='epn_logo2.png',width='90%',align='center' ),
-                                         fluidRow(' '),tags$hr(),
+                                         fluidRow(' '),shiny::hr(),
                                          fluidRow(
                                            column(3,tags$b('Proyecto:')),column(1),
                                            column(8,'Modelo Predictivo para Reprobación de estudiantes.')
-                                         ),tags$hr(),
+                                         ),shiny::hr(),
                                          fluidRow(
                                            column(3,tags$b('Unidad:')),column(1),
                                            column(8,'Dirección de Gestión de la Información')
-                                         ),tags$hr(),
+                                         ),shiny::hr(),
                                          fluidRow(
                                            column(3,tags$b('Director:')),column(1),
                                            column(8,'Msc. Roberto Andrade')
-                                         ),tags$hr(),
+                                         ),shiny::hr(),
                                          fluidRow(
                                            column(3,tags$b('Analístas:')),column(1),
                                            column(8,'Miguel Angel Sánchez & Cristian Pachacama')
-                                         ),tags$hr()
+                                         ),shiny::hr()
                                          
                             ),
                             
                             mainPanel(
                               tags$h3('Modelo Predictivo para Reprobación de estudiantes.'),
-                              tags$hr(),#tags$h4('Resumen'),
+                              shiny::hr(),#tags$h4('Resumen'),
                               fluidRow(' '),
                               tags$p('El propósito de esta plataforma es el integrar en una sola interfaz
                                      un modelo que permita predecir el número de estudiantes que tomarán 
@@ -98,7 +98,7 @@ ui <- navbarPage(title = "Modelo Predictivo DGIP",
                               
                             )
                             
-                          ),tags$hr()
+                          ),shiny::hr()
                           
                           
                  ),
@@ -120,9 +120,10 @@ ui <- navbarPage(title = "Modelo Predictivo DGIP",
                                                     selectInput(inputId='facultad_in',label='Seleccione Facultad',choices = facultad_lista_shy0),
                                                     selectInput(inputId='carrera_in',label='Seleccione Carrera',choices = NULL),
                                                     selectInput(inputId='periodo_in',label='Seleccione Periodo',choices = NULL),
-                                                    selectInput(inputId='n_periodo_in',label='Número de Periodos (Histórico)',choices = NULL),
+                                                    #selectInput(inputId='n_periodo_in',label='Número de Periodos (Histórico)',choices = NULL),
+                                                    sliderInput(inputId='n_periodo_in',label = 'Número de Periodos (Histórico)',min = 1,max = 10,value = 5),
                                                     
-                                                    actionButton('Informe_boton',label='Generar Informe',icon = icon('newspaper-o')),tags$hr(),
+                                                    actionButton('Informe_boton',label='Generar Informe',icon = icon('newspaper-o')),shiny::hr(),
                                                     #Grafico Histórico Reprobacion ------------
                                                     highchartOutput('graf_mini_reprob',height = '280px'),
                                                     tags$p('Este gráfico muestra el porcentaje de reprobación histórico de la materia seleccionada.')
@@ -130,16 +131,16 @@ ui <- navbarPage(title = "Modelo Predictivo DGIP",
                                        ),
                                        mainPanel(
                                          #Titulo Informe MACRO promedio
-                                         tags$h2(textOutput("titulo_macro")),tags$hr(),
+                                         tags$h2(textOutput("titulo_macro")),shiny::hr(),
                                          tags$h4(textOutput("facultad_macro")),
                                          tags$h4(textOutput("carrera_macro")),
-                                         tags$h4(textOutput("periodos_macro")),tags$hr(),
+                                         tags$h4(textOutput("periodos_macro")),shiny::hr(),
                                          #Tabla Informe MACRO promedio
-                                         fluidRow(dataTableOutput("informe_reprob"))  
+                                         fluidRow(DT::dataTableOutput("informe_reprob"))  
                                          
                                        )
                                        
-                                     ),tags$hr()
+                                     ),shiny::hr()
                             ),
                             
                             #Modelo usando ARIMA de Porcentajes -----------------
@@ -159,7 +160,7 @@ ui <- navbarPage(title = "Modelo Predictivo DGIP",
                                                     selectInput(inputId='periodo_in2',label='Seleccione Periodo',choices = NULL),
                                                     selectInput(inputId='n_periodo_in2',label='Número de Periodos (Histórico)',choices = NULL),
                                                     
-                                                    actionButton('Informe_boton2',label='Generar Informe',icon = icon('newspaper-o')),tags$hr(),
+                                                    actionButton('Informe_boton2',label='Generar Informe',icon = icon('newspaper-o')),shiny::hr(),
                                                     #Grafico Histórico Reprobacion
                                                     # highchartOutput('graf_mini_reprob2',height = '280px')
                                                     plotlyOutput('graf_mini_reprob2',height = '300px'),
@@ -167,14 +168,14 @@ ui <- navbarPage(title = "Modelo Predictivo DGIP",
                                                     
                                        ),
                                        mainPanel(
-                                         tags$h3(textOutput("titulo_macro2")),tags$hr(),
+                                         tags$h3(textOutput("titulo_macro2")),shiny::hr(),
                                          # Botón de descarga
-                                         downloadButton("downloadData2", "Descargar Arima"), tags$hr(),
-                                         fluidRow(dataTableOutput("informe_reprob2")),tags$hr()
+                                         downloadButton("downloadData2", "Descargar Arima"), shiny::hr(),
+                                         fluidRow(DT::dataTableOutput("informe_reprob2")),shiny::hr()
                                          
                                        )
                                        
-                                     ),tags$hr()
+                                     ),shiny::hr()
                             )
                             
                  ),
@@ -198,7 +199,7 @@ ui <- navbarPage(title = "Modelo Predictivo DGIP",
                                            tags$p('Presione el botón ',tags$i('Generar Informe'),' y posteriormente seleccione (dando click)
                                                   una de las materias de la lista, y se generará un reporte con la prediccion
                                                   de los estudiantes Aprobados/Reprobados de dicha materia.'),
-                                           actionButton('Informe_boton3',label='Generar Informe',icon = icon('newspaper-o')),tags$hr(),
+                                           actionButton('Informe_boton3',label='Generar Informe',icon = icon('newspaper-o')),shiny::hr(),
                                            #Grafico Histórico Reprobacion ------------
                                            highchartOutput('graf_mini_reprob3',height = '300px'),
                                            tags$p('Este gráfico muestra el porcentaje de reprobación histórico de la materia seleccionada.')
@@ -206,15 +207,15 @@ ui <- navbarPage(title = "Modelo Predictivo DGIP",
                               ),
                               mainPanel(
                                 # Informe Resumen por Carrera -------------------
-                                tags$h2(textOutput("titulo_micro3")),tags$hr(),
+                                tags$h2(textOutput("titulo_micro3")),shiny::hr(),
                                 tags$h4(textOutput("facultad_micro3")),
                                 tags$h4(textOutput("carrera_micro3")),
-                                tags$h4(textOutput("periodos_micro3")),tags$hr(),
+                                tags$h4(textOutput("periodos_micro3")),shiny::hr(),
                                 
-                                fluidRow(dataTableOutput("informe_reprob3")),tags$hr(),
+                                fluidRow(DT::dataTableOutput("informe_reprob3")),shiny::hr(),
                                 
                                 #Informe LOGIT por Materia(Seleccionada) --------
-                                tags$h2('Predicción de Aprobados y Reprobados'),tags$hr(),
+                                tags$h2('Predicción de Aprobados y Reprobados'),shiny::hr(),
                                 fluidRow(
                                   
                                   column(width = 7,
@@ -230,16 +231,20 @@ ui <- navbarPage(title = "Modelo Predictivo DGIP",
                                   )
                                   
                                 ),
-                                tags$hr(),
+                                shiny::hr(),
                                 
                                 #Tabla por Profesor y Paralelo
-                                fluidRow(dataTableOutput("informe_profesor3")),tags$hr(),
+                                fluidRow(DT::dataTableOutput("informe_profesor3")),shiny::hr(),
                                 
                                 #Infome Logit
-                                fluidRow(dataTableOutput("informe_logit3"))
+                                fluidRow(DT::dataTableOutput("informe_logit3")),shiny::hr(),
+                                
+                                #Validacion Modelo
+                                tags$h2('Resumen del Modelo'),
+                                fluidRow(verbatimTextOutput("validacion_logit3"))
                               )
                               
-                            ),tags$hr()
+                            ),shiny::hr()
                  )
                  
 )

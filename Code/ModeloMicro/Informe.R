@@ -26,7 +26,7 @@ informe_data3 <- eventReactive(input$Informe_boton3,{
   period_lista_aux <- c("Materia",period_lista_aux)
   
   #Datos incluidos Prediccion LOGIT ----------------------------
-  source("Code/ModeloMicro/ModeloLogit.R",local = TRUE)
+  source("Code/ModeloMicro/Logit/ModeloLogit.R",local = TRUE)
   # BDD_micro contiene toda la base más prediccion LOGIT (estudiantes)
   
   #Filtro de datos por Facultad y Carrera
@@ -164,7 +164,9 @@ informe_data3 <- eventReactive(input$Informe_boton3,{
   return(list('informe' = informe,
               'tabla_historico' = tabla_historico,
               'predic_logit' = BDD_logit,
-              'precision' = precision))
+              'precision' = precision,
+              'Modelo1' = Modelo1,
+              'Modelo2' = Modelo2))
 })
 
 

@@ -149,11 +149,16 @@ logit_model = function(BDD_micro,particion=0.8){
     
   }
   
-  return(list("modelo"=modelo1,
+  return(list("modelo1" = modelo1,
+              "modelo2" = modelo2,
               "datosPredic"=BDD_micro))
 }
 
-BDD_micro = logit_model(BDD_micro)$datosPredic
+LogitModel = logit_model(BDD_micro)
+
+Modelo1 = LogitModel$modelo1
+Modelo2 = LogitModel$modelo2
+BDD_micro = LogitModel$datosPredic
 
 #Precision del Modelo Logit
 precision = 100*mean(BDD_micro$Reprueba==BDD_micro$RepruebaPredic,na.rm = TRUE)

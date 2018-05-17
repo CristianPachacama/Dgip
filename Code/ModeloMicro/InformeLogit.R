@@ -88,8 +88,8 @@ output$informe_profesor3 <- renderDataTable(server = FALSE,
                                               inner_join(matriculados,by="Paralelo") %>%
                                               inner_join(promedio1,by="Paralelo") %>% 
                                               inner_join(promedio2,by="Paralelo") %>% 
-                                              inner_join(reprobados1,by="Paralelo") %>% 
-                                              inner_join(reprobados2,by="Paralelo")
+                                              inner_join(reprobados2,by="Paralelo") %>% 
+                                              inner_join(reprobados1,by="Paralelo")
                                             
                                             #Aplicar Formato Data Table
                                             tabla_aux= tabla_aux %>% datatable(#filter = 'top',
@@ -97,11 +97,7 @@ output$informe_profesor3 <- renderDataTable(server = FALSE,
                                                                                #extensions = c('Buttons'), #'Responsive',
                                                                                options = list(
                                                                                  dom = 't',
-                                                                                 # buttons = list('copy','print', list(
-                                                                                 #   extend = 'collection',
-                                                                                 #   buttons = c('csv', 'excel', 'pdf'),
-                                                                                 #   text = 'Download'
-                                                                                 # )),
+                                                                                 
                                                                                  pageLength = 5,
                                                                                  searching = FALSE,
                                                                                  searchHighlight = TRUE
@@ -150,7 +146,16 @@ tabla_logit <- reactive({
     arrange(desc(N.Mat),desc(`Riesgo Reprobar`))
 })
 
-#Reporte Prediccion LOGIT ------------------------------------
+#Velocimetro - Porcentaje de Reprobación ----------------------------
+output$velocimetro <- flexdashboard::renderGauge(expr = {
+  reprobacion = 100*mean(tabla_logit()$Prediccion=="Reprueba", na.rm = TRUE)
+  reprobacion = round(reprobacion ,digits = 1)
+  flexdashboard::gauge(value = reprobacion ,min = 0,max = 100,label = "Reprobación",symbol = "%",
+                       sectors = gaugeSectors(success = c(0,15),warning = c(15,30),danger = c(30,100)))
+  
+})
+
+#Reporte Prediccion LOGIT    -----------------------------------------
 output$informe_logit3 <- renderDataTable(server = FALSE,
                                          expr={
                                            tabla_aux = tabla_logit()%>% 
@@ -179,11 +184,17 @@ output$informe_logit3 <- renderDataTable(server = FALSE,
 )
 
 
-#Velocimetro - Porcentaje de Reprobación ----------------------------
-output$velocimetro <- flexdashboard::renderGauge(expr = {
-  reprobacion = 100*mean(tabla_logit()$Prediccion=="Reprueba", na.rm = TRUE)
-  reprobacion = round(reprobacion ,digits = 1)
-  flexdashboard::gauge(value = reprobacion ,min = 0,max = 100,label = "Reprobación",symbol = "%",
-                       sectors = gaugeSectors(success = c(0,15),warning = c(15,30),danger = c(30,100)))
+#Estadisticos de Validacion del Modelo  -----------------------------------
+output$validacion_logit3 <- renderPrint(expr = {
   
+  res_mod1 <- capture.output(summary(informe_data3()$Modelo1))
+  return(print(res_mod1))
 })
+
+
+
+
+
+
+
+

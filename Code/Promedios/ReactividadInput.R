@@ -43,10 +43,13 @@ observe({
   periodoInp <- input$periodo_in
   
   #>>Actualiza Lista Periodos
-  updateSelectInput(session,inputId = 'n_periodo_in',
+  numeros <- lista_n_periodos(facultadInp,carreraInp,periodoInp)
+  
+  updateSliderInput(session,inputId = 'n_periodo_in',
                     label = 'Número de Periodos (Historico)',
-                    choices= lista_n_periodos(facultadInp,carreraInp,periodoInp),
-                    selected = min(5,round(lista_n_periodos(facultadInp,carreraInp,periodoInp)[1]/2))
+                    min = min(numeros),
+                    max = max(numeros),
+                    value = min(5,round(numeros[1]/2.5))
                     
   )
   
