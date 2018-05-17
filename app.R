@@ -1,3 +1,20 @@
+#########################################################################
+##### Installing packages into ‘/usr/local/lib/R/site-library’   ########
+#########################################################################
+### Instalcion de Paquetes para Shiny Server
+# sudo su - -c "R -e \"install.packages('shiny')\""
+# sudo su - -c "R -e \"install.packages('shinythemes')\""
+# sudo su - -c "R -e \"install.packages('flexdashboard')\""
+# sudo su - -c "R -e \"install.packages('DT')\""
+# sudo su - -c "R -e \"install.packages('highcharter')\""
+# sudo su - -c "R -e \"install.packages('plotly')\""
+# sudo su - -c "R -e \"install.packages('tidyverse')\""
+# sudo su - -c "R -e \"install.packages('reshape2')\""
+# sudo su - -c "R -e \"install.packages('tseries')\""
+# sudo su - -c "R -e \"install.packages('forecast')\""
+
+#########################################################################
+
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #-------------------   MODELO PREDICTIVO V10 DGIP  ------------------------
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
