@@ -11,7 +11,7 @@ drv <- JDBC("com.microsoft.sqlserver.jdbc.SQLServerDriver" , "/home/operador/sql
 conn <- dbConnect(drv, "jdbc:sqlserver:// < IP > :1433;databaseName=CopyOfSAE", "sa", "Lcddtp2014")
 d <- dbGetQuery(conn, "select  count (*) from vw_saebicalif;")
 
-conn <- dbConnect(drv, "jdbc:sqlserver://172.31.10.92:1433;databaseName=CopyOfSAE", "sa", "Lcddtp2014")
+conn <- dbConnect(drv, "jdbc:sqlserver:// < IP > :1433;databaseName=CopyOfSAE", "sa", "Lcddtp2014")
 results <- dbSendQuery(conn,"select * from vw_saebicalif;") 
 partialset <- fetch(results, as.numeric(as.numeric(d))) 
 
