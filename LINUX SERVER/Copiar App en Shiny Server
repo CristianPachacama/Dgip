@@ -3,4 +3,4 @@ sudo cp -r PLOT/ /srv/shiny-server
 sudo cp -r Dgip/ /srv/shiny-server
 
 ## Eliminar desde directorio donde se aloja el servidor
-sudo rm -r PLOT
+sudo rm -rf PLOT
