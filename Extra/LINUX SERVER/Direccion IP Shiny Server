@@ -1,4 +1,14 @@
-#Direcciones Shiny Server (TOSHIBA-cristian)
-EPN-LA100 : http://172.29.26.199:3838/Dgip/
-Casa : http://192.168.1.14:3838/Dgip/
-Local : http://127.0.0.1:3838/Dgip/
+#############################################################
+#######      Direcciones Shiny y Rstudio Server     #########
+#############################################################
+
+Puerto Shiny:  <IP>:3838
+Puerto Rstudio: <IP>:8787
+
+#Ejemplo
+
+EPN-LA100 : http://172.29.26.199:3838
+Local : http://127.0.0.1:3838
+
+#############################################################
+
