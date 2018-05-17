@@ -4,6 +4,7 @@
 library("RJDBC")
 load("Data/NombreVariables.RData")
 
+#Conexión a BDD ---------------------------------
 options(java.parameters = "-Xmx4024m")
 memory.limit(size=10000000000024)
 
@@ -17,4 +18,10 @@ results <- dbSendQuery(conn,"select * from vw_saebicalif;")
 partialset <- fetch(results, as.numeric(as.numeric(d))) 
 
 
+# Corrección Nombres ----------------------------
+
+
+
+# Generar archivo principal de App --------------
+save(BDD_sae_spk,file="Data/Datos_SAE_Act.RData")
 
