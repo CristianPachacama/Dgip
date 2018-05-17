@@ -2,6 +2,7 @@
 #!!!!!!!!!!!!!!!!    Conexión a BDD    !!!!!!!!!!!!!!!!!!!!
 #===========================================================
 library("RJDBC")
+load("Data/NombreVariables.RData")
 
 options(java.parameters = "-Xmx4024m")
 memory.limit(size=10000000000024)
